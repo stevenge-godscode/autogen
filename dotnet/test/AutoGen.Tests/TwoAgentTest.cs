@@ -1,11 +1,10 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // TwoAgentTest.cs
 #pragma warning disable xUnit1013
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoGen.OpenAI.V1;
 using FluentAssertions;
 using Xunit.Abstractions;
 

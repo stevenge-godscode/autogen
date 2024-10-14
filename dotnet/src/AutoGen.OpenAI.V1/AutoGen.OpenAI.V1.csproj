@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(PackageTargetFrameworks)</TargetFrameworks>
     <RootNamespace>AutoGen.OpenAI</RootNamespace>
@@ -8,14 +8,16 @@
 
   <PropertyGroup>
     <!-- NuGet Package Settings -->
-    <Title>AutoGen.OpenAI</Title>
+    <Title>AutoGen.OpenAI.V1</Title>
     <Description>
       OpenAI Intergration for AutoGen.
+      This package connects to openai using Azure.AI.OpenAI v1 package. It is reserved to keep compatibility with the projects which stick to that v1 package.
+      To use the latest version of OpenAI SDK, please use AutoGen.OpenAI package.
     </Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.AI.OpenAI" Version="$(AzureOpenAIVersion)" />
+	  <PackageReference Include="Azure.AI.OpenAI" VersionOverride="1.0.0-beta.17" />
   </ItemGroup>
 
   <ItemGroup>

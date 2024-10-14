@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // OpenAIChatRequestMessageConnector.cs
 
 using System;
@@ -24,7 +24,7 @@ namespace AutoGen.OpenAI.V1;
 /// </summary>
 public class OpenAIChatRequestMessageConnector : IMiddleware, IStreamingMiddleware
 {
-    private bool strictMode = false;
+    private bool strictMode;
 
     /// <summary>
     /// Create a new instance of <see cref="OpenAIChatRequestMessageConnector"/>.
@@ -335,7 +335,10 @@ public class OpenAIChatRequestMessageConnector : IMiddleware, IStreamingMiddlewa
 
         var toolCall = message.ToolCalls.Select((tc, i) => new ChatCompletionsFunctionToolCall(tc.ToolCallId ?? $"{tc.FunctionName}_{i}", tc.FunctionName, tc.FunctionArguments));
         var textContent = message.GetContent() ?? string.Empty;
-        var chatRequestMessage = new ChatRequestAssistantMessage(textContent) { Name = message.From };
+
+        // don't include the name field when it's tool call message.
+        // fix https://github.com/microsoft/autogen/issues/3437
+        var chatRequestMessage = new ChatRequestAssistantMessage(textContent);
         foreach (var tc in toolCall)
         {
             chatRequestMessage.ToolCalls.Add(tc);

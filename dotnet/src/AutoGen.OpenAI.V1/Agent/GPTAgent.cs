@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // GPTAgent.cs
 
 using System;
@@ -27,6 +27,7 @@ namespace AutoGen.OpenAI.V1;
 /// <para>- <see cref="ToolCallMessage"/></para>
 /// <para>- <see cref="AggregateMessage{TMessage1, TMessage2}"/> where TMessage1 is <see cref="ToolCallMessage"/> and TMessage2 is <see cref="ToolCallResultMessage"/></para>
 /// </summary>
+[Obsolete("Use OpenAIChatAgent instead")]
 public class GPTAgent : IStreamingAgent
 {
     private readonly OpenAIClient openAIClient;
