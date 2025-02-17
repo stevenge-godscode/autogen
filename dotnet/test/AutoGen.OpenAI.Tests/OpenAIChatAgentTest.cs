@@ -2,6 +2,7 @@
 // OpenAIChatAgentTest.cs
 
 using System;
+using System.ClientModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ using Azure.AI.OpenAI;
 using FluentAssertions;
 using OpenAI;
 using OpenAI.Chat;
+using Xunit;
 
 namespace AutoGen.OpenAI.Tests;
 
+[Trait("Category", "UnitV1")]
 public partial class OpenAIChatAgentTest
 {
     /// <summary>
@@ -50,7 +53,7 @@ public partial class OpenAIChatAgentTest
         reply.Should().BeOfType<MessageEnvelope<ChatCompletion>>();
         reply.As<MessageEnvelope<ChatCompletion>>().From.Should().Be("assistant");
         reply.As<MessageEnvelope<ChatCompletion>>().Content.Role.Should().Be(ChatMessageRole.Assistant);
-        reply.As<MessageEnvelope<ChatCompletion>>().Content.Usage.TotalTokens.Should().BeGreaterThan(0);
+        reply.As<MessageEnvelope<ChatCompletion>>().Content.Usage.TotalTokenCount.Should().BeGreaterThan(0);
 
         // test streaming
         var streamingReply = openAIChatAgent.GenerateStreamingReplyAsync(new[] { chatMessageContent });
@@ -239,7 +242,7 @@ public partial class OpenAIChatAgentTest
         var options = new ChatCompletionOptions()
         {
             Temperature = 0.7f,
-            MaxTokens = 1,
+            MaxOutputTokenCount = 1,
         };
 
         var openAIChatAgent = new OpenAIChatAgent(
@@ -261,7 +264,7 @@ public partial class OpenAIChatAgentTest
         var options = new ChatCompletionOptions()
         {
             Temperature = 0.7f,
-            MaxTokens = 1,
+            MaxOutputTokenCount = 1,
         };
 
         var agentName = "assistant";
@@ -314,6 +317,6 @@ public partial class OpenAIChatAgentTest
     {
         var endpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT") ?? throw new Exception("Please set AZURE_OPENAI_ENDPOINT environment variable.");
         var key = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY") ?? throw new Exception("Please set AZURE_OPENAI_API_KEY environment variable.");
-        return new AzureOpenAIClient(new Uri(endpoint), new Azure.AzureKeyCredential(key));
+        return new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(key));
     }
 }

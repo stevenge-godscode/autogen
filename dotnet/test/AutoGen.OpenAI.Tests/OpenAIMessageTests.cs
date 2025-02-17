@@ -17,6 +17,7 @@ using Xunit;
 
 namespace AutoGen.OpenAI.Tests;
 
+[Trait("Category", "UnitV1")]
 public class OpenAIMessageTests
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
@@ -286,7 +287,7 @@ public class OpenAIMessageTests
                 var functionToolCall = (ChatToolCall)chatRequestMessage.ToolCalls.First();
                 functionToolCall.FunctionName.Should().Be("test");
                 functionToolCall.Id.Should().Be("test");
-                functionToolCall.FunctionArguments.Should().Be("test");
+                functionToolCall.FunctionArguments.ToString().Should().Be("test");
                 return await innerAgent.GenerateReplyAsync(msgs);
             })
             .RegisterMiddleware(middleware);
@@ -321,7 +322,7 @@ public class OpenAIMessageTests
                     var functionToolCall = (ChatToolCall)chatRequestMessage.ToolCalls.ElementAt(i);
                     functionToolCall.FunctionName.Should().Be("test");
                     functionToolCall.Id.Should().Be($"test_{i}");
-                    functionToolCall.FunctionArguments.Should().Be("test");
+                    functionToolCall.FunctionArguments.ToString().Should().Be("test");
                 }
                 return await innerAgent.GenerateReplyAsync(msgs);
             })
@@ -449,7 +450,7 @@ public class OpenAIMessageTests
                 var functionToolCall = (ChatToolCall)toolCallRequestMessage.ToolCalls.First();
                 functionToolCall.FunctionName.Should().Be("test");
                 functionToolCall.Id.Should().Be("test");
-                functionToolCall.FunctionArguments.Should().Be("test");
+                functionToolCall.FunctionArguments.ToString().Should().Be("test");
                 return await innerAgent.GenerateReplyAsync(msgs);
             })
             .RegisterMiddleware(middleware);
@@ -481,7 +482,7 @@ public class OpenAIMessageTests
                     var functionToolCall = (ChatToolCall)toolCallRequestMessage.ToolCalls.ElementAt(i);
                     functionToolCall.FunctionName.Should().Be("test");
                     functionToolCall.Id.Should().Be($"test_{i}");
-                    functionToolCall.FunctionArguments.Should().Be("test");
+                    functionToolCall.FunctionArguments.ToString().Should().Be("test");
                 }
 
                 for (int i = 1; i < msgs.Count(); i++)
@@ -630,8 +631,6 @@ public class OpenAIMessageTests
                                 _ => throw new System.NotImplementedException(),
                             };
                         }),
-                        FunctionCallName = assistantMessage.FunctionCall?.FunctionName,
-                        FunctionCallArguments = assistantMessage.FunctionCall?.FunctionArguments,
                     };
                 }
 

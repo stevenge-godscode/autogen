@@ -1,4 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// AgentExtension.cs
 
 using System;
 using System.Collections.Generic;
@@ -143,13 +144,13 @@ public static class AgentExtension
 
             chatHistory.Add(msg);
         }
-
+        var intermediateChatHistory = new List<IMessage>();
         await foreach (var msg in agent.SendAsync(receiver, chatHistory, maxRound, ct))
         {
-            chatHistory.Add(msg);
+            intermediateChatHistory.Add(msg);
         }
 
-        return chatHistory;
+        return chatHistory.Concat(intermediateChatHistory);
     }
 
     [Obsolete("use GroupChatExtension.SendAsync")]
